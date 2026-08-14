@@ -35,6 +35,16 @@ curl  http://127.0.0.1:8000/symbols/IBM/annual/2005
 
 ```
 
+### Resposne
+```
+{
+    "high": "80.8700",
+    "low": "76.0600",
+    "volume": "139457800"
+}
+```
+
+
 
 ## Database
 
