@@ -1,6 +1,6 @@
 # Liquid Labs Python Assignment
 
-FastAPI app return annual high, low, total volume to the symbol and year. Data store in SQLite.
+FastAPI app return annual high, low, total volume to the symbol and year. Data store in SQLite and database will auto create at startup.
 
 ## Requirements
 
