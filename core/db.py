@@ -30,3 +30,12 @@ UNIQUE (symbol, date)
             """
         )
         conn.commit()
+
+
+def get_db():
+    conn = sqlite3.connect(DB_PATH)
+    
+    try:
+        yield conn
+    finally:
+        conn.close()

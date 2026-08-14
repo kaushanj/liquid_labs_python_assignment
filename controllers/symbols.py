@@ -1,8 +1,10 @@
+from repositories.symbols import Symbolerepository
+
 class SymbolController:
 
-    def get_summary(self):
-        return {
-       "high": "80.8700",
-       "low": "76.0600",
-       "volume": "139457800"
-}
+    def __init__(self, repository: Symbolerepository):
+        self.__repository = repository
+
+    def get_summary(self, symbol: str, year: int):
+
+        return self.__repository.get_summay_by(symbol, year)
