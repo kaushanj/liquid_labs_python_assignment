@@ -1,3 +1,7 @@
+import dotenv 
+dotenv.load_dotenv()
+
+
 from fastapi import FastAPI
 from contextlib import asynccontextmanager
 from api.symbols import router as symbol_router
