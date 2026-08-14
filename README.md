@@ -1,6 +1,12 @@
 # Liquid Labs Python Assignment
 
-Simple FastAPI app for Liquid Labs Python Assignment
+FastAPI app return annual heigh, low, totla volume to the symble and year. Data store in SQLite.
+
+## Requirements
+
+- Python 3.11+
+- uv
+- Alpha Vantage API Key
 
 ## Setup 
 ```bash 
