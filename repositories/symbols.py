@@ -1,5 +1,6 @@
 import sqlite3
-class Symbolerepository:
+
+class SymboleRepository:
 
     def __init__(self, db: sqlite3.Connection):
          self.__db = db

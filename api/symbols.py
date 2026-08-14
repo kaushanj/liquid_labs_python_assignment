@@ -1,7 +1,7 @@
 from fastapi import APIRouter, Depends
 
 from controllers.symbols import SymbolController
-from repositories.symbols import Symbolerepository
+from repositories.symbols import SymboleRepository
 from clients.alphavantage import AlphaVantageClient
 from .schema import validate_symbol, validate_year
 
@@ -11,7 +11,7 @@ router = APIRouter(prefix="/symbols", tags=["symbols"])
 
 
 def get_symbol_controller(db = Depends(get_db)):
-    return SymbolController(repository=Symbolerepository(db), client=AlphaVantageClient())
+    return SymbolController(repository=SymboleRepository(db), client=AlphaVantageClient())
 
 @router.get("/{symbol}/annual/{year}", response_model= dict[str, str])
 def get_symbol_summery(symbol: str = Depends(validate_symbol), year: int = Depends(validate_year), 
