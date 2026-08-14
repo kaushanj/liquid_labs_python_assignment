@@ -1,11 +1,11 @@
 import sqlite3
 
-class SymboleRepository:
+class SymbolRepository:
 
     def __init__(self, db: sqlite3.Connection):
          self.__db = db
 
-    def get_summay_by(self, symbol: str, year: int):
+    def get_summary_by(self, symbol: str, year: int):
         """ fetch summary data from db """
 
         query = """
@@ -18,16 +18,17 @@ class SymboleRepository:
         data = self.__db.execute(query, (symbol, year)).fetchone()
 
 
-        if  data is None:
+        if  data is None or data["high"] is None:
             return None
 
         return {
-            "high": str(data[0]),
-            "low": str(data[1]),
-            "volume": str(data[2])
+            "high": str(data["high"]),
+            "low": str(data["low"]),
+            "volume": str(data["volume"])
         }
 
     def save_data(self, data: list):
+
         query = """
         INSERT INTO market_data (symbol, date, year, high, low, volume ) VALUES (
         ?, ?, ?, ?, ?, ?)

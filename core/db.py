@@ -1,8 +1,9 @@
+import os
 import sqlite3
 from pathlib import Path
 
-DB_PATH = Path("market.db")
 
+DB_PATH = Path(os.getenv("DB_PATH", "market.db"))
 
 
 def create_market_data_table():
@@ -34,7 +35,8 @@ UNIQUE (symbol, date)
 
 def get_db():
     conn = sqlite3.connect(DB_PATH)
-    
+    conn.row_factory = sqlite3.Row
+
     try:
         yield conn
     finally:

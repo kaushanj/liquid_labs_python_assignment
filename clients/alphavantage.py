@@ -1,10 +1,11 @@
 import os
 import requests
 from datetime import datetime 
-from fastapi import HTTPException, status
+
+from core.exception import ConfigException, ProviderException
 
 from core.constants import (
-    ALPHA_VANTAGE_FUNCTION_NAME,
+    ALPHA_VANTAGE_TIME_SERIES_MONTHLY,
     ALPHA_VANTAGE_URL
 )
 
@@ -12,12 +13,13 @@ from core.constants import (
 class AlphaVantageClient:
 
     def fetch_by(self, symbol: str, year: int):
+        """ fetch raw stock data from monthly time series """
 
         data = self.__make_call(symbol)
         monthly_data = data.get("Monthly Time Series")
 
         if not monthly_data:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE , detail="Unexpected error occur. try again later.")
+            raise ProviderException("Unexpected error occurred. try again later.")
 
         rows = []
         for date, value in monthly_data.items():
@@ -41,29 +43,29 @@ class AlphaVantageClient:
         API_KEY = os.getenv("ALPHAVANTAGE_API_KEY")
         
         if not API_KEY:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE , detail="API key is missing.")
+            raise ConfigException("API key is missing.")
 
         try:
             response = requests.get(ALPHA_VANTAGE_URL, 
                                     params={
-                "function": ALPHA_VANTAGE_FUNCTION_NAME,
+                "function": ALPHA_VANTAGE_TIME_SERIES_MONTHLY,
                 "symbol": symbol, 
                 "apikey": API_KEY
             },
-            timeout=10)
+            timeout=5)
 
             response.raise_for_status()
-        except requests.Timeout:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE , detail="Market data provider timed out.")
+        except requests.RequestException:
+            raise ProviderException("Market data unavailable.")
 
 
         data = response.json()
 
         if "Information" in data:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE , detail="Daily limit reach.")
+            raise ProviderException("Daily limit reach.")
         
         if "Error Message" in data:
-            raise HTTPException(status_code=status.HTTP_503_SERVICE_UNAVAILABLE , detail="Unexpected error occor. try again later.")
+            raise ProviderException("Unexpected error occurred. try again later.")
 
         return data
         
