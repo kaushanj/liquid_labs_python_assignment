@@ -1,6 +1,6 @@
 # Liquid Labs Python Assignment
 
-FastAPI app return annual heigh, low, totla volume to the symble and year. Data store in SQLite.
+FastAPI app return annual high, low, total volume to the symbol and year. Data store in SQLite.
 
 ## Requirements
 
@@ -35,7 +35,7 @@ curl  http://127.0.0.1:8000/symbols/IBM/annual/2005
 
 ```
 
-### Resposne
+### Response
 ```
 {
     "high": "80.8700",
