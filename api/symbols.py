@@ -2,6 +2,8 @@ from fastapi import APIRouter, Depends
 
 from controllers.symbols import SymbolController
 from .schema import validate_symbol, validate_year
+
+
 router = APIRouter(prefix="/symbols", tags=["symbols"])
 
 
